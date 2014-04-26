@@ -23,12 +23,10 @@ simple VehicleApp {
         
         int packetLength = default(50); //length of packets that RSUs send
         int sendInterval = default(-1); //if given, interval between sending packets
-        int suffix;
         
-        int destination = default(-1);
-        int destinationKey = default(-1);
-        int forwardSuffix = default(-1); //if given, a suffix to forward packets too
-        int forwardKey = default(-1);
+        int publicKey = default(-1);
+        int privateKey = default(-1);
+        int dataFromRSU = default(-1);
         
         @display("i=block/app");
     gates:

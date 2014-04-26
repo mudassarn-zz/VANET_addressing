@@ -29,14 +29,19 @@ class VehicleApp : public cSimpleModule
     bool isMalicious;
     int packetLengthBytes; //length of packets which the vehicle sends (to maintain compatibility with cPacket)
     int sendInterval; //interval to send APP_DATA packets
-    int mySuffix; //vehicle suffix
-    int destSuffix; //destination suffix to send packets
-    int destKey; //key of the destination
-    int forwardSuffix; //suffix to forward packets to
-    int forwardKey; //key of the forwarded node
+
+    int myPublicKey;
+    int myPrivateKey;
+    int dataFromRSU;
     
     cMessage *appDataTimer; //used to time APP_DATA packets
     VAPacket *appDataPkt; //used for APP_DATA
+
+    int createAndReturnPrivateKey();
+    int createAndReturnPublicKey();
+    int createMyPrefix();
+    int createMySuffix();
+    int computeHash(int valueToHash);
 
   public:
     VehicleApp();
