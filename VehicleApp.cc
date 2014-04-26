@@ -26,24 +26,41 @@ VehicleApp::~VehicleApp() {
     delete appDataPkt;
 }
 
+int createAndReturnPrivateKey() {
+    return myPrivateKey;
+}
+
+int createAndReturnPublicKey() {
+    return myPublicKey;
+}
+
+int createMyPrefix() {
+    return computeHash(myPublicKey);
+}
+
+int createMySuffix() {
+    return dataFromRSU;
+}
+
+int computeHash(int valueToHash) {
+    return computeHash(valueToHash);
+}
+
 void VehicleApp::initialize() {
 	isMalicious = par("malicious").boolValue();
     packetLengthBytes = par("packetLength").longValue();
     sendInterval = par("sendInterval").longValue();
-    mySuffix = par("suffix").longValue();
-    destSuffix = par("destination").longValue();
-    destKey = par("destinationKey").longValue();
-    forwardSuffix = par("forwardSuffix").longValue();
-    forwardKey = par("forwardKey").longValue();
     
+
+    myPublicKey = createAndReturnPublicKey();
+    myPrivateKey = createAndReturnPrivateKey();
+
 	//create APP_DATA packet
 	appDataPkt = new VAPacket("APP_DATA");
 	appDataPkt->setByteLength(packetLengthBytes);
-	appDataPkt->setSourceSuffix(mySuffix);
-	appDataPkt->setSourcePrefix(-1);
-	appDataPkt->setDestPrefix(-1);
+	appDataPkt->setSourceSuffix(createMyPrefix()+""+createMySuffix());
 	appDataPkt->setDestSuffix(destSuffix);
-	appDataPkt->setKey(destKey);
+	appDataPkt->setKey(myPublicKey);
 	appDataPkt->setType(APP_DATA);
 	appDataTimer = new cMessage("APP_DATA_TIMER");
 	
